@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mapa modelu sluneční soustavy</title>
+  <meta name="description" content="Návrh umístění terénního modelu sluneční soustavy v Sobětuchách.">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+</head>
+<body class="map-page">
+  <div id="map" class="map-full"></div>
+
+  <div class="basemap-switch" role="radiogroup" aria-label="Podkladová mapa">
+    <label><input type="radio" name="basemap" value="mapy" checked> Mapy.com (turistická)</label>
+    <label><input type="radio" name="basemap" value="osm"> OpenStreetMap</label>
+  </div>
+
+  <aside class="panel">
+    <details open>
+      <summary><span class="panel-title">Model sluneční soustavy</span></summary>
+      <a class="back-link" href="./">← Zpět na úvod</a>
+
+      <section class="panel-section">
+        <h2>Slunce</h2>
+        <button id="place-sun" type="button" class="button">Umístit Slunce do mapy</button>
+        <p class="hint">Slunce můžete také přetáhnout myší.</p>
+        <p class="meta">Poloha: <span id="sun-coords"></span></p>
+      </section>
+
+      <section class="panel-section">
+        <h2>Měřítko</h2>
+        <label class="field">
+          <span>Předvolba</span>
+          <select id="scale-preset"></select>
+        </label>
+        <label class="field">
+          <span>Vlastní měřítko</span>
+          <span class="scale-input">1&nbsp;:&nbsp;<input id="scale-custom" type="text" inputmode="numeric" autocomplete="off"></span>
+        </label>
+        <label class="field">
+          <span>Průměr Slunce v modelu</span>
+          <span class="scale-input"><input id="sun-diameter-input" type="text" inputmode="decimal" autocomplete="off">&nbsp;m</span>
+        </label>
+        <p class="hint">Zadáte-li průměr Slunce, měřítko se dopočítá.</p>
+      </section>
+
+      <section class="panel-section">
+        <h2>Tělesa</h2>
+        <table class="body-table">
+          <thead>
+            <tr><th></th><th>Těleso</th><th class="num">Vzdálenost</th><th class="num">Průměr</th></tr>
+          </thead>
+          <tbody id="body-table-body"></tbody>
+        </table>
+      </section>
+    </details>
+  </aside>
+
+  <script type="module">
+    import { initApp } from './js/map.js';
+    initApp();
+  </script>
+</body>
+</html>

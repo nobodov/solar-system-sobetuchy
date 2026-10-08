@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sluneční soustava Sobětuchy</title>
+  <meta name="description" content="Záměr terénního modelu sluneční soustavy v Sobětuchách: Slunce v obci, Neptun asi 5 km daleko.">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/maplibre-gl@5.6.0/dist/maplibre-gl.js"></script>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <div>
+        <h1>Sluneční soustava v&nbsp;Sobětuchách</h1>
+        <p class="lead">
+          Chceme postavit model sluneční soustavy, kterým se dá projít. Slunce bude stát v obci
+          a planety po okolních cestách. Velikosti i vzdálenosti budou ve stejném měřítku.
+        </p>
+        <p>
+          V&nbsp;měřítku 1&nbsp;:&nbsp;1&nbsp;miliarda má Slunce průměr 1,39&nbsp;m.
+          Země je kulička velikosti korálku, 150&nbsp;m od Slunce, a Neptun stojí 4,5&nbsp;km daleko.
+          Při procházce tak člověk na vlastní nohy pozná, jak je sluneční soustava velká
+          a prázdná. Stezka může sloužit škole, výletníkům i cyklistům.
+        </p>
+        <ul class="facts">
+          <li><strong>1,39&nbsp;m</strong><span>průměr Slunce</span></li>
+          <li><strong>12,8&nbsp;mm</strong><span>Země, 150&nbsp;m od Slunce</span></li>
+          <li><strong>4,5&nbsp;km</strong><span>vzdálenost Neptunu</span></li>
+        </ul>
+      </div>
+      <figure class="hero-figure" aria-hidden="true">
+        <svg viewBox="0 0 300 300">
+          <!-- Full orbit circles around the Sun; every planet sits exactly on its circle. -->
+          <g fill="none" stroke-width="1.5" opacity="0.8">
+            <circle cx="40" cy="260" r="40" stroke="#2f7fd8"/>
+            <circle cx="40" cy="260" r="80" stroke="#c8492c"/>
+            <circle cx="40" cy="260" r="135" stroke="#b5713a"/>
+            <circle cx="40" cy="260" r="185" stroke="#b89b4b"/>
+            <circle cx="40" cy="260" r="225" stroke="#3aa6b0"/>
+            <circle cx="40" cy="260" r="260" stroke="#3a5fcd"/>
+          </g>
+          <circle cx="40" cy="260" r="18" fill="#f5b400"/>
+          <circle cx="68.3" cy="231.7" r="3" fill="#2f7fd8"/>
+          <circle cx="82.4" cy="192.2" r="2.5" fill="#c8492c"/>
+          <circle cx="159.2" cy="196.6" r="9" fill="#b5713a"/>
+          <circle cx="153.9" cy="114.2" r="8" fill="#b89b4b"/>
+          <circle cx="248.6" cy="175.7" r="5" fill="#3aa6b0"/>
+          <circle cx="239.2" cy="92.9" r="5" fill="#3a5fcd"/>
+        </svg>
+      </figure>
+    </header>
+
+    <section class="block" id="inspirace">
+      <h2>Jak to dělají jinde</h2>
+      <p class="intro">
+        Stezky v podobném měřítku, kde Neptun leží asi 4,5&nbsp;km od Slunce. Slunce bývá
+        betonová nebo kovová koule, planety drobné modely na stojanech s informační tabulí.
+      </p>
+      <div class="gallery">
+        <figure class="model-card">
+          <a class="model-photo" href="https://commons.wikimedia.org/wiki/File:Planetenweg-Uetliberg-Sonne.jpg" target="_blank" rel="noopener" title="Původní fotografie na Wikimedia Commons"><img style="object-position: center 15%" src="img/models/uetliberg-sun.jpg" alt="Zlatá koule Slunce na stožáru, Planetenweg Uetliberg" loading="lazy"></a>
+          <figcaption>
+            <h3>Planetenweg Uetliberg, Curych</h3>
+            <p class="model-meta">1&nbsp;:&nbsp;1&nbsp;mld. · Neptun 4,5&nbsp;km · Pluto ~6&nbsp;km</p>
+            <p class="model-desc">Slunce jako zlatá koule na stožáru u horní stanice lanovky.</p>
+            <p class="model-links"><a href="https://de.wikipedia.org/wiki/Planetenweg_Uetliberg" target="_blank" rel="noopener">Wikipedie (de)</a> · <a href="https://commons.wikimedia.org/wiki/Category:Planetenweg_Uetliberg-Felsenegg" target="_blank" rel="noopener">Galerie na Commons</a></p>
+            <p class="credit">Foto: Micha L. Rieser, <a href="https://commons.wikimedia.org/wiki/File:Planetenweg-Uetliberg-Sonne.jpg">Wikimedia Commons</a>, licence Attribution</p>
+          </figcaption>
+        </figure>
+        <figure class="model-card">
+          <a class="model-photo" href="https://commons.wikimedia.org/wiki/File:Planetenweg-Uetliberg-Neptun.jpg" target="_blank" rel="noopener" title="Původní fotografie na Wikimedia Commons"><img src="img/models/uetliberg-neptune.jpg" alt="Zastavení Neptun na Planetenweg Uetliberg" loading="lazy"></a>
+          <figcaption>
+            <h3>Uetliberg: zastavení Neptun</h3>
+            <p class="model-meta">balvan s tabulí a modelem planety</p>
+            <p class="model-desc">Velké planety stojí na bludných balvanech, malé jsou zalité ve skle.</p>
+            <p class="credit">Foto: Micha L. Rieser, <a href="https://commons.wikimedia.org/wiki/File:Planetenweg-Uetliberg-Neptun.jpg">Wikimedia Commons</a>, licence Attribution</p>
+          </figcaption>
+        </figure>
+        <figure class="model-card">
+          <a class="model-photo" href="https://commons.wikimedia.org/wiki/File:HK_T%C5%99ebe%C5%A1_18_Planet%C3%A1rn%C3%AD_stezka_1.jpg" target="_blank" rel="noopener" title="Původní fotografie na Wikimedia Commons"><img src="img/models/hradec-sun.jpg" alt="Betonová koule Slunce na Planetární stezce v Hradci Králové" loading="lazy"></a>
+          <figcaption>
+            <h3>Planetární stezka Hradec Králové</h3>
+            <p class="model-meta">1&nbsp;:&nbsp;1&nbsp;mld. · Neptun 4,5&nbsp;km · 13 zastavení</p>
+            <p class="model-desc">Slunce u hvězdárny, trasa vede kolem rybníků až k&nbsp;Plutu u lesního hřbitova.</p>
+            <p class="model-links"><a href="https://cs.wikipedia.org/wiki/Hv%C4%9Bzd%C3%A1rna_a_planet%C3%A1rium_v_Hradci_Kr%C3%A1lov%C3%A9#Tematick%C3%A9_stezky" target="_blank" rel="noopener">Wikipedie</a> · <a href="https://commons.wikimedia.org/wiki/Category:Planet%C3%A1rn%C3%AD_stezka_Hradec_Kr%C3%A1lov%C3%A9" target="_blank" rel="noopener">Galerie na Commons</a></p>
+            <p class="credit">Foto: Lukáš Nekolný, <a href="https://commons.wikimedia.org/wiki/File:HK_T%C5%99ebe%C5%A1_18_Planet%C3%A1rn%C3%AD_stezka_1.jpg">Wikimedia Commons</a>, CC BY-SA 4.0</p>
+          </figcaption>
+        </figure>
+        <figure class="model-card">
+          <a class="model-photo" href="https://commons.wikimedia.org/wiki/File:Planet%C3%A1rn%C3%AD_stezka_2_-_Merkur.jpg" target="_blank" rel="noopener" title="Původní fotografie na Wikimedia Commons"><img src="img/models/hradec-mercury.jpg" alt="Tabule zastavení Merkur na Planetární stezce v Hradci Králové" loading="lazy"></a>
+          <figcaption>
+            <h3>Hradec Králové: zastavení Merkur</h3>
+            <p class="model-meta">dřevěný sloupek s tabulí A3</p>
+            <p class="model-desc">Levné komunitní řešení: dřevo, tisk na bukové překližce, celá stezka za ~20&nbsp;000&nbsp;Kč.</p>
+            <p class="credit">Foto: ŠJů, <a href="https://commons.wikimedia.org/wiki/File:Planet%C3%A1rn%C3%AD_stezka_2_-_Merkur.jpg">Wikimedia Commons</a>, CC BY-SA 3.0</p>
+          </figcaption>
+        </figure>
+        <figure class="model-card">
+          <a class="model-photo" href="https://commons.wikimedia.org/wiki/File:Vestec,_Planet%C3%A1rn%C3%AD_stezka,_Slunce.jpg" target="_blank" rel="noopener" title="Původní fotografie na Wikimedia Commons"><img src="img/models/vestec-sun.jpg" alt="Zastavení Slunce na Planetární stezce ve Vestci" loading="lazy"></a>
+          <figcaption>
+            <h3>Planetární stezka Vestec</h3>
+            <p class="model-meta">obec u Prahy · stezka 1,4&nbsp;km</p>
+            <p class="model-desc">Příklad z&nbsp;malé obce: kratší vycházka u rybníka, jen vnitřní planety.</p>
+            <p class="model-links"><a href="https://commons.wikimedia.org/wiki/Category:Planet%C3%A1rn%C3%AD_stezka_Vestec" target="_blank" rel="noopener">Galerie na Commons</a></p>
+            <p class="credit">Foto: ŠJů, <a href="https://commons.wikimedia.org/wiki/File:Vestec,_Planet%C3%A1rn%C3%AD_stezka,_Slunce.jpg">Wikimedia Commons</a>, CC BY 4.0</p>
+          </figcaption>
+        </figure>
+        <figure class="model-card">
+          <a class="model-photo" href="https://commons.wikimedia.org/wiki/File:Vestec,_Planet%C3%A1rn%C3%AD_stezka,_Zem%C4%9B.jpg" target="_blank" rel="noopener" title="Původní fotografie na Wikimedia Commons"><img src="img/models/vestec-earth.jpg" alt="Zastavení Země na Planetární stezce ve Vestci" loading="lazy"></a>
+          <figcaption>
+            <h3>Vestec: zastavení Země</h3>
+            <p class="model-meta">stojan s tabulí</p>
+            <p class="model-desc">Jednotný stojan u všech těles drží stezku pohromadě.</p>
+            <p class="credit">Foto: ŠJů, <a href="https://commons.wikimedia.org/wiki/File:Vestec,_Planet%C3%A1rn%C3%AD_stezka,_Zem%C4%9B.jpg">Wikimedia Commons</a>, CC BY 4.0</p>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="block" id="mapa">
+      <h2>Kde by mohla planeta stát</h2>
+      <p class="intro">
+        Kružnice ukazují, jak daleko od Slunce musí stát jednotlivé planety. Planetu lze umístit
+        kamkoli na její kružnici, třeba k&nbsp;cestě, lavičce nebo vyhlídce.
+      </p>
+      <div id="preview" class="map-preview" role="img" aria-label="Náhled mapy s kružnicemi planet kolem Sobětuch"></div>
+      <div class="preview-actions">
+        <a class="button" href="map.html">Otevřít velkou mapu</a>
+        <p>V&nbsp;mapě můžete posunout Slunce, změnit měřítko a zapínat jednotlivá tělesa.</p>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>
+        Podklady: <a href="https://github.com/nobodov/solar-system-sobetuchy/blob/main/podklady/reserse-modely-v-terenu.md">rešerše existujících modelů</a> v&nbsp;repozitáři projektu.
+        Mapy: © Seznam.cz a.s. a další (Mapy.com), data © přispěvatelé OpenStreetMap.
+        Fotografie z&nbsp;Wikimedia Commons pod uvedenými licencemi.
+      </p>
+    </footer>
+  </main>
+
+  <script type="module">
+    import { createSolarMap } from './js/map.js';
+    createSolarMap('preview', { interactive: false, fitOrbits: true, hiddenBodies: ['pluto'] });
+  </script>
+</body>
+</html>

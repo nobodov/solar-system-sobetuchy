@@ -1,0 +1,13 @@
+# Local Claude Code settings
+.claude/settings.local.json
+
+# Secrets must never live in this OneDrive-synced folder
+.env
+*.pem
+*.key
+
+# OS / editor noise
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
