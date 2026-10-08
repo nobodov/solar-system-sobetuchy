@@ -265,8 +265,21 @@ html:has(body.map-page), body.map-page { height: 100%; overflow: hidden; }
   position: relative;
 }
 .panel-handle { display: none; }
-.panel-chevron::after { content: "▾"; color: var(--text-muted); }
-.panel.collapsed .panel-chevron::after { content: "▴"; }
+/* Chevron points where the panel will move: up to retract on desktop. */
+.panel-chevron {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  margin: -6px -6px -6px 0;
+  border-radius: 50%;
+  background: var(--surface-alt);
+  color: var(--text);
+}
+.panel-chevron svg { transform: rotate(180deg); transition: transform 0.25s ease; }
+.panel.collapsed .panel-chevron svg { transform: rotate(0deg); }
+.panel-header:hover .panel-chevron { color: var(--accent-strong); }
 .panel.collapsed .panel-header { border-bottom-color: transparent; }
 .panel-title { font-weight: 700; font-size: 1rem; }
 
@@ -328,22 +341,31 @@ html:has(body.map-page), body.map-page { height: 100%; overflow: hidden; }
     max-height: 55%;
     border-radius: var(--radius) var(--radius) 0 0;
   }
-  .panel-header { padding-top: 18px; }
+  /* Bottom sheet: retracting slides it down so only the header stays visible. */
+  .panel { transition: transform 0.25s ease; }
+  .panel.dragging { transition: none; }
+  .panel.collapsed { transform: translateY(calc(100% - var(--panel-header-height, 64px))); }
+  .panel.collapsed .panel-body { grid-template-rows: 1fr; }
+  .panel-header { padding-top: 20px; touch-action: none; }
   .panel-handle {
     display: block;
     position: absolute;
-    top: 7px;
+    top: 8px;
     left: 50%;
-    width: 40px;
-    height: 4px;
-    margin-left: -20px;
-    border-radius: 2px;
-    background: var(--border);
+    width: 48px;
+    height: 5px;
+    margin-left: -24px;
+    border-radius: 3px;
+    background: var(--text-muted);
+    opacity: 0.6;
   }
+  /* On the sheet the chevron points down to retract, up to expand. */
+  .panel-chevron svg { transform: rotate(0deg); }
+  .panel.collapsed .panel-chevron svg { transform: rotate(180deg); }
   /* Keep map controls above the sheet: its header when collapsed, the whole sheet when open. */
   .map-page .maplibregl-ctrl-bottom-left,
   .map-page .maplibregl-ctrl-bottom-right {
-    bottom: 64px;
+    bottom: calc(var(--panel-header-height, 64px) + 8px);
     transition: bottom 0.25s ease;
   }
   .map-page:has(.panel:not(.collapsed)) .maplibregl-ctrl-bottom-left,

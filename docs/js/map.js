@@ -363,13 +363,7 @@ export function initApp() {
     });
   });
 
-  // Settings panel can be collapsed to its header to give the map more room.
-  const panel = document.getElementById('panel');
-  const panelToggle = document.getElementById('panel-toggle');
-  panelToggle.addEventListener('click', () => {
-    const collapsed = panel.classList.toggle('collapsed');
-    panelToggle.setAttribute('aria-expanded', String(!collapsed));
-  });
+  initPanel(document.getElementById('panel'), document.getElementById('panel-toggle'));
 
   placeSunButton.addEventListener('click', () => {
     placeSunButton.classList.add('active');
@@ -426,4 +420,89 @@ export function initApp() {
   });
 
   return solarMap;
+}
+
+// Settings panel: the header toggles it on click; on phones it is a bottom sheet
+// that can also be dragged down to retract or up to expand.
+const BOTTOM_SHEET_QUERY = window.matchMedia('(max-width: 640px)');
+
+function initPanel(panel, header) {
+  let suppressClick = false;
+  let drag = null;
+
+  const setCollapsed = (collapsed) => {
+    panel.classList.toggle('collapsed', collapsed);
+    header.setAttribute('aria-expanded', String(!collapsed));
+  };
+
+  // Distance the sheet travels: everything except the header stays visible when retracted.
+  const collapsedOffset = () => panel.offsetHeight - header.offsetHeight;
+
+  // CSS uses the header height for the retracted sheet and to lift the map controls above it.
+  const syncHeaderHeight = () => {
+    document.documentElement.style.setProperty('--panel-header-height', `${header.offsetHeight}px`);
+  };
+  syncHeaderHeight();
+  window.addEventListener('resize', syncHeaderHeight);
+
+  header.addEventListener('click', () => {
+    if (suppressClick) {
+      suppressClick = false;
+      return;
+    }
+    setCollapsed(!panel.classList.contains('collapsed'));
+  });
+
+  header.addEventListener('pointerdown', (event) => {
+    if (!BOTTOM_SHEET_QUERY.matches || event.button !== 0) return;
+    const maxOffset = collapsedOffset();
+    drag = {
+      pointerId: event.pointerId,
+      startY: event.clientY,
+      startOffset: panel.classList.contains('collapsed') ? maxOffset : 0,
+      maxOffset,
+      offset: null,
+      lastY: event.clientY,
+      lastTime: event.timeStamp,
+      velocity: 0,
+    };
+  });
+
+  // Moves are tracked on the window so a fast drag that leaves the header still counts.
+  window.addEventListener('pointermove', (event) => {
+    if (!drag || event.pointerId !== drag.pointerId) return;
+    const dy = event.clientY - drag.startY;
+    if (drag.offset === null) {
+      if (Math.abs(dy) < 6) return; // still a tap
+      try {
+        header.setPointerCapture(event.pointerId);
+      } catch {
+        // Capture is only an optimisation; the window listeners still see the pointer.
+      }
+      panel.classList.add('dragging');
+    }
+    drag.offset = Math.min(Math.max(drag.startOffset + dy, 0), drag.maxOffset);
+    const dt = event.timeStamp - drag.lastTime;
+    if (dt > 0) drag.velocity = (event.clientY - drag.lastY) / dt;
+    drag.lastY = event.clientY;
+    drag.lastTime = event.timeStamp;
+    panel.style.transform = `translateY(${drag.offset}px)`;
+  });
+
+  const endDrag = (event) => {
+    if (!drag || event.pointerId !== drag.pointerId) return;
+    const { offset, maxOffset, velocity } = drag;
+    drag = null;
+    if (offset === null) return; // a plain tap is handled by the click listener
+    // Swallow the click that may follow this pointerup, but never a later real click.
+    suppressClick = true;
+    setTimeout(() => { suppressClick = false; }, 0);
+    panel.classList.remove('dragging');
+    panel.style.transform = '';
+    // A quick flick decides by direction, otherwise the sheet snaps to the nearer state.
+    const collapse = Math.abs(velocity) > 0.5 ? velocity > 0 : offset > maxOffset / 2;
+    setCollapsed(collapse);
+  };
+  window.addEventListener('pointerup', endDrag);
+  window.addEventListener('pointercancel', endDrag);
 }
