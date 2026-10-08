@@ -191,11 +191,32 @@ html:has(body.map-page), body.map-page { height: 100%; overflow: hidden; }
   cursor: grab;
 }
 
-.basemap-switch {
+/* Basemap picker: small layers button expanding into a list. */
+.basemap-control {
   position: absolute;
   top: 10px;
   left: 10px;
-  z-index: 2;
+  z-index: 3;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.basemap-toggle {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+}
+.basemap-toggle:hover,
+.basemap-toggle[aria-expanded="true"] { color: var(--accent-strong); }
+.basemap-menu {
   background: var(--surface);
   color: var(--text);
   border-radius: 8px;
@@ -203,11 +224,13 @@ html:has(body.map-page), body.map-page { height: 100%; overflow: hidden; }
   padding: 6px 10px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
   font-size: 0.9rem;
 }
-.basemap-switch label { cursor: pointer; white-space: nowrap; }
+.basemap-menu[hidden] { display: none; }
+.basemap-menu label { cursor: pointer; white-space: nowrap; }
 
+/* Settings panel: header button collapses the body to give the map more room. */
 .panel {
   position: absolute;
   top: 10px;
@@ -215,29 +238,48 @@ html:has(body.map-page), body.map-page { height: 100%; overflow: hidden; }
   z-index: 2;
   width: 360px;
   max-height: calc(100% - 20px);
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   background: var(--surface);
   color: var(--text);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   font-size: 0.9rem;
 }
-.panel details > summary {
-  list-style: none;
-  cursor: pointer;
-  padding: 12px 14px;
-  position: sticky;
-  top: 0;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
+.panel-header {
+  flex: none;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 14px;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  position: relative;
 }
-.panel details > summary::-webkit-details-marker { display: none; }
-.panel details > summary::after { content: "▾"; color: var(--text-muted); }
-.panel details:not([open]) > summary::after { content: "▴"; }
+.panel-handle { display: none; }
+.panel-chevron::after { content: "▾"; color: var(--text-muted); }
+.panel.collapsed .panel-chevron::after { content: "▴"; }
+.panel.collapsed .panel-header { border-bottom-color: transparent; }
 .panel-title { font-weight: 700; font-size: 1rem; }
+
+/* Grid-row trick animates the height between 0 and the content size. */
+.panel-body {
+  flex: 0 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.25s ease;
+}
+.panel.collapsed .panel-body { grid-template-rows: 0fr; }
+.panel-scroll { min-height: 0; overflow-y: auto; }
 .back-link { display: inline-block; margin: 10px 14px 0; font-size: 0.85rem; }
 
 .panel-section { padding: 10px 14px 12px; border-bottom: 1px solid var(--border); }
@@ -283,11 +325,29 @@ html:has(body.map-page), body.map-page { height: 100%; overflow: hidden; }
     left: 0;
     right: 0;
     width: auto;
-    max-height: 50%;
+    max-height: 55%;
     border-radius: var(--radius) var(--radius) 0 0;
   }
+  .panel-header { padding-top: 18px; }
+  .panel-handle {
+    display: block;
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    width: 40px;
+    height: 4px;
+    margin-left: -20px;
+    border-radius: 2px;
+    background: var(--border);
+  }
+  /* Keep map controls above the sheet: its header when collapsed, the whole sheet when open. */
   .map-page .maplibregl-ctrl-bottom-left,
-  .map-page .maplibregl-ctrl-bottom-right { bottom: 56px; }
+  .map-page .maplibregl-ctrl-bottom-right {
+    bottom: 64px;
+    transition: bottom 0.25s ease;
+  }
+  .map-page:has(.panel:not(.collapsed)) .maplibregl-ctrl-bottom-left,
+  .map-page:has(.panel:not(.collapsed)) .maplibregl-ctrl-bottom-right { bottom: calc(55% + 4px); }
 }
 
 .mapy-logo img { display: block; height: 28px; width: auto; }

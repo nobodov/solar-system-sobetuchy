@@ -13,14 +13,28 @@
 <body class="map-page">
   <div id="map" class="map-full"></div>
 
-  <div class="basemap-switch" role="radiogroup" aria-label="Podkladová mapa">
-    <label><input type="radio" name="basemap" value="mapy" checked> Mapy.com (turistická)</label>
-    <label><input type="radio" name="basemap" value="osm"> OpenStreetMap</label>
+  <div class="basemap-control">
+    <button id="basemap-toggle" class="basemap-toggle" type="button" title="Podkladová mapa"
+            aria-label="Podkladová mapa" aria-expanded="false" aria-controls="basemap-menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <path d="M12 3 2 8.5l10 5.5 10-5.5L12 3Z" fill="currentColor" opacity="0.9"/>
+        <path d="m4.2 12.3-2.2 1.2 10 5.5 10-5.5-2.2-1.2-7.8 4.3-7.8-4.3Z" fill="currentColor" opacity="0.55"/>
+      </svg>
+    </button>
+    <div id="basemap-menu" class="basemap-menu" role="radiogroup" aria-label="Podkladová mapa" hidden>
+      <label><input type="radio" name="basemap" value="mapy" checked> Mapy.com (turistická)</label>
+      <label><input type="radio" name="basemap" value="osm"> OpenStreetMap</label>
+    </div>
   </div>
 
-  <aside class="panel">
-    <details open>
-      <summary><span class="panel-title">Model sluneční soustavy</span></summary>
+  <aside id="panel" class="panel">
+    <button id="panel-toggle" class="panel-header" type="button" aria-expanded="true" aria-controls="panel-body">
+      <span class="panel-handle" aria-hidden="true"></span>
+      <span class="panel-title">Model sluneční soustavy</span>
+      <span class="panel-chevron" aria-hidden="true"></span>
+    </button>
+    <div id="panel-body" class="panel-body">
+      <div class="panel-scroll">
       <a class="back-link" href="./">← Zpět na úvod</a>
 
       <section class="panel-section">
@@ -56,7 +70,8 @@
           <tbody id="body-table-body"></tbody>
         </table>
       </section>
-    </details>
+      </div>
+    </div>
   </aside>
 
   <script type="module">

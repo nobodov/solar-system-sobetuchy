@@ -342,8 +342,33 @@ export function initApp() {
     });
   }
 
+  // Basemap picker: a small layers button that expands into the list of basemaps.
+  const basemapToggle = document.getElementById('basemap-toggle');
+  const basemapMenu = document.getElementById('basemap-menu');
+  const setBasemapMenuOpen = (open) => {
+    basemapMenu.hidden = !open;
+    basemapToggle.setAttribute('aria-expanded', String(open));
+  };
+  basemapToggle.addEventListener('click', () => setBasemapMenuOpen(basemapMenu.hidden));
+  document.addEventListener('click', (event) => {
+    if (!basemapMenu.hidden && !event.target.closest('.basemap-control')) setBasemapMenuOpen(false);
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setBasemapMenuOpen(false);
+  });
   basemapInputs.forEach((input) => {
-    input.addEventListener('change', () => solarMap.setBasemap(input.value));
+    input.addEventListener('change', () => {
+      solarMap.setBasemap(input.value);
+      setBasemapMenuOpen(false);
+    });
+  });
+
+  // Settings panel can be collapsed to its header to give the map more room.
+  const panel = document.getElementById('panel');
+  const panelToggle = document.getElementById('panel-toggle');
+  panelToggle.addEventListener('click', () => {
+    const collapsed = panel.classList.toggle('collapsed');
+    panelToggle.setAttribute('aria-expanded', String(!collapsed));
   });
 
   placeSunButton.addEventListener('click', () => {
