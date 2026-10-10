@@ -1,6 +1,6 @@
 # Sluneční soustava v Sobětuchách
 
-Záměr terénního modelu sluneční soustavy v obci Sobětuchy. Slunce má stát v obci a planety po okolních cestách, ve stejném měřítku pro velikost i vzdálenost (1 : 1 miliarda, Neptun 4,5 km od Slunce).
+Záměr terénního modelu sluneční soustavy v obci Sobětuchy. Slunce má stát v obci a planety po okolních cestách, ve stejném měřítku pro velikost i vzdálenost (1 : 1 000 000 000, Neptun 4,5 km od Slunce).
 
 - 🌍 **Informační web:** https://nobodov.github.io/solar-system-sobetuchy/
 - 🗺️ **Plánovací mapa:** https://nobodov.github.io/solar-system-sobetuchy/map.html

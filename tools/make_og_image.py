@@ -40,12 +40,16 @@ size = 70
 while ImageFont.truetype(FONTS + 'segoeuib.ttf', size * S).getlength('Sluneční soustava') > max_width:
     size -= 1
 bold = ImageFont.truetype(FONTS + 'segoeuib.ttf', size * S)
-semi = ImageFont.truetype(FONTS + 'seguisb.ttf', 36 * S)
+subtitle = 'Model v měřítku 1 : 1 000 000 000'
+sub_size = 36
+while ImageFont.truetype(FONTS + 'seguisb.ttf', sub_size * S).getlength(subtitle) > max_width:
+    sub_size -= 1
+semi = ImageFont.truetype(FONTS + 'seguisb.ttf', sub_size * S)
 regular = ImageFont.truetype(FONTS + 'segoeui.ttf', 30 * S)
 small = ImageFont.truetype(FONTS + 'segoeui.ttf', 24 * S)
 d.text((x0, 120 * S), 'Sluneční soustava', font=bold, fill=TEXT)
 d.text((x0, (120 + size * 1.2) * S), 'v Sobětuchách', font=bold, fill=TEXT)
-d.text((x0, 320 * S), 'Model v měřítku 1 : 1 miliarda', font=semi, fill=ACCENT)
+d.text((x0, 320 * S), subtitle, font=semi, fill=ACCENT)
 d.text((x0, 380 * S), 'Slunce 1,39 m · Země 150 m od Slunce', font=regular, fill=MUTED)
 d.text((x0, 422 * S), 'Neptun 4,5 km daleko', font=regular, fill=MUTED)
 d.text((x0, 540 * S), 'Naučná stezka · plánovací mapa', font=small, fill=MUTED)
